@@ -51,7 +51,7 @@ def main():
                         st.session_state.message = "It's a tie!"
                     else:
                         st.session_state.message = "Player X's turn" if st.session_state.turn == 1 else "Player O's turn"
-                st.experimental_rerun()  # Refresh the page to update the board
+                st.rerun()  # Refresh the page to update the board
 
     # Display game message
     if st.session_state.message in ["Player X wins!", "Player O wins!", "It's a tie!"]:
