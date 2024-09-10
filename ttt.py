@@ -19,7 +19,6 @@ def check_winner(board):
         return board[0, 2]
 
     return 0
-st.write("check winner function created")
 
 def main():
     st.title("Tic Tac Toe")
@@ -32,9 +31,13 @@ def main():
     board = st.session_state.board
     st.write(st.session_state.message)
 
+    # Create a list to store button clicks
+    button_clicked = st.session_state.get('button_clicked', [False] * 9)
+
+    cols = st.columns(3)
     for i in range(3):
-        cols = st.columns(3)
         for j in range(3):
+            index = i * 3 + j
             button_label = ""
             if board[i, j] == 1:
                 button_label = "X"
@@ -42,25 +45,26 @@ def main():
                 button_label = "O"
                 
             if cols[j].button(button_label, key=f"{i}-{j}"):
-                if board[i, j] == 0:
-                    st.session_state.board[i, j] = st.session_state.turn
-                    st.session_state.turn = 3 - st.session_state.turn  # Switch turn
-                    winner = check_winner(st.session_state.board)
-                    if winner != 0:
-                        st.session_state.message = "Player X wins!" if winner == 1 else "Player O wins!"
-                    elif np.all(st.session_state.board != 0):
-                        st.session_state.message = "It's a tie!"
-                    else:
-                        st.session_state.message = "Player X's turn" if st.session_state.turn == 1 else "Player O's turn"
-                st.experimental_rerun()  # Refresh the page to update the board
-    st.write("main function completed")
+                if not button_clicked[index]:
+                    button_clicked[index] = True
+                    st.session_state.button_clicked = button_clicked
+                    if board[i, j] == 0:
+                        st.session_state.board[i, j] = st.session_state.turn
+                        st.session_state.turn = 3 - st.session_state.turn  # Switch turn
+                        winner = check_winner(st.session_state.board)
+                        if winner != 0:
+                            st.session_state.message = "Player X wins!" if winner == 1 else "Player O wins!"
+                        elif np.all(st.session_state.board != 0):
+                            st.session_state.message = "It's a tie!"
+                        else:
+                            st.session_state.message = "Player X's turn" if st.session_state.turn == 1 else "Player O's turn"
 
     # Display game message
     if st.session_state.message in ["Player X wins!", "Player O wins!", "It's a tie!"]:
         st.write(st.session_state.message)
         if st.button("Restart Game"):
             st.session_state.board, st.session_state.turn, st.session_state.message = initialize_game()
-st.write("display game message completed")
+            st.session_state.button_clicked = [False] * 9  # Reset button clicks
 
 if __name__ == "__main__":
     main()
