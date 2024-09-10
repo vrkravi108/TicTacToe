@@ -19,6 +19,7 @@ def check_winner(board):
         return board[0, 2]
 
     return 0
+st.write("check winner function created")
 
 def main():
     st.title("Tic Tac Toe")
@@ -52,12 +53,14 @@ def main():
                     else:
                         st.session_state.message = "Player X's turn" if st.session_state.turn == 1 else "Player O's turn"
                 st.experimental_rerun()  # Refresh the page to update the board
+st.write(main function completed")
 
     # Display game message
     if st.session_state.message in ["Player X wins!", "Player O wins!", "It's a tie!"]:
         st.write(st.session_state.message)
         if st.button("Restart Game"):
             st.session_state.board, st.session_state.turn, st.session_state.message = initialize_game()
+st.write(display game message completed")
 
 if __name__ == "__main__":
     main()
