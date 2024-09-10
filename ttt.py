@@ -51,13 +51,13 @@ def main():
                         st.session_state.message = "It's a tie!"
                     else:
                         st.session_state.message = "Player X's turn" if st.session_state.turn == 1 else "Player O's turn"
-                    st.experimental_rerun()  # Refresh the page to update the board
 
     # Display game message
     if st.session_state.message in ["Player X wins!", "Player O wins!", "It's a tie!"]:
         st.write(st.session_state.message)
         if st.button("Restart Game"):
             st.session_state.board, st.session_state.turn, st.session_state.message = initialize_game()
+            st.session_state.button_clicked = [False] * 9  # Reset button clicks
 
 if __name__ == "__main__":
     main()
